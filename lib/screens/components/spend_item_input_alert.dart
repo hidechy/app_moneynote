@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
+import 'package:money_note/collections/spend_time_place.dart';
 
 import '../../collections/spend_item.dart';
 import '../../extensions/extensions.dart';
@@ -179,6 +180,33 @@ class _SpendItemInputAlertState extends ConsumerState<SpendItemInputAlert> {
   ///
   Future<void> _deleteSpendItem({required int id}) async {
     final spendItemsCollection = widget.isar.spendItems;
+
+    //-----------------------------------
+
+    final getSpendItem = await spendItemsCollection.filter().idEqualTo(id).findFirst();
+
+    if (getSpendItem != null) {
+      final spendTimePlacesCollection = widget.isar.spendTimePlaces;
+
+      final getSpendTimePlaces =
+          await spendTimePlacesCollection.filter().spendTypeEqualTo(getSpendItem.spendItemName).findAll();
+
+      await widget.isar.writeTxn(() async {
+        getSpendTimePlaces.forEach((element) async {
+          final spendTimePlace = element
+            ..date = element.date
+            ..time = element.time
+            ..price = element.price
+            ..place = element.place
+            ..spendType = '';
+
+          await widget.isar.spendTimePlaces.put(spendTimePlace);
+        });
+      });
+    }
+
+    //-----------------------------------
+
     await widget.isar.writeTxn(() async => spendItemsCollection.delete(id));
   }
 }

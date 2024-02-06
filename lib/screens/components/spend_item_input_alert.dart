@@ -21,7 +21,7 @@ class SpendItemInputAlert extends ConsumerStatefulWidget {
 class _SpendItemInputAlertState extends ConsumerState<SpendItemInputAlert> {
   final TextEditingController _spendItemEditingController = TextEditingController();
 
-  late List<SpendItem>? _spendItemList;
+  List<SpendItem> _spendItemList = [];
 
   ///
   void _init() {
@@ -136,25 +136,21 @@ class _SpendItemInputAlertState extends ConsumerState<SpendItemInputAlert> {
 
     final oneWidth = context.screenSize.width / 5;
 
-    if (_spendItemList!.isNotEmpty) {
-      _spendItemList!.forEach((element) {
-        list.add(
-          GestureDetector(
-            onLongPress: () {
-              _showDeleteDialog(id: element.id);
-            },
-            child: Container(
-              width: oneWidth,
-              padding: const EdgeInsets.all(2),
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              decoration: BoxDecoration(border: Border.all(color: Colors.white.withOpacity(0.4))),
-              alignment: Alignment.center,
-              child: Text(element.spendItemName),
-            ),
+    _spendItemList.forEach((element) {
+      list.add(
+        GestureDetector(
+          onLongPress: () => _showDeleteDialog(id: element.id),
+          child: Container(
+            width: oneWidth,
+            padding: const EdgeInsets.all(2),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            decoration: BoxDecoration(border: Border.all(color: Colors.white.withOpacity(0.4))),
+            alignment: Alignment.center,
+            child: Text(element.spendItemName),
           ),
-        );
-      });
-    }
+        ),
+      );
+    });
 
     return Wrap(children: list);
   }

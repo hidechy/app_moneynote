@@ -92,6 +92,7 @@ class _SpendYearlyBlockAlertState extends ConsumerState<SpendYearlyBlockAlert> {
 
     final oneWidth = context.screenSize.width / 6;
 
+    var allTotal = 0;
     _yearlySpendSumMap.forEach((key, value) {
       final list2 = <Widget>[];
 
@@ -106,6 +107,8 @@ class _SpendYearlyBlockAlertState extends ConsumerState<SpendYearlyBlockAlert> {
           sum += element;
         }
       });
+
+      allTotal += sum;
 
       if (map.isNotEmpty) {
         list.add(Container(
@@ -148,6 +151,23 @@ class _SpendYearlyBlockAlertState extends ConsumerState<SpendYearlyBlockAlert> {
 
       list.add(Wrap(children: list2));
     });
+
+    list
+      ..add(const SizedBox(height: 20))
+      ..add(
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          decoration: BoxDecoration(color: Colors.yellowAccent.withOpacity(0.1)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(),
+              Text(allTotal.toString().toCurrency(), style: const TextStyle(color: Colors.yellowAccent)),
+            ],
+          ),
+        ),
+      )
+      ..add(const SizedBox(height: 20));
 
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list),

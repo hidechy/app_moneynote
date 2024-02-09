@@ -79,8 +79,10 @@ class _SpendYearlyBlockAlertState extends ConsumerState<SpendYearlyBlockAlert> {
         _yearlySpendTimePlaceList = getSpendTimePlaces;
 
         if (_yearlySpendTimePlaceList != null) {
-          _yearlySpendSumMap =
-              makeYearlySpendItemSumMap(spendItemList: _spendItemList, spendTimePlaceList: _yearlySpendTimePlaceList!);
+          _yearlySpendSumMap = makeYearlySpendItemSumMap(
+            spendItemList: _spendItemList,
+            spendTimePlaceList: _yearlySpendTimePlaceList!,
+          );
         }
       });
     }
@@ -116,8 +118,10 @@ class _SpendYearlyBlockAlertState extends ConsumerState<SpendYearlyBlockAlert> {
           padding: const EdgeInsets.all(5),
           margin: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-            gradient:
-                LinearGradient(colors: [Colors.indigo.withOpacity(0.8), Colors.transparent], stops: const [0.7, 1]),
+            gradient: LinearGradient(
+              colors: [Colors.indigo.withOpacity(0.8), Colors.transparent],
+              stops: const [0.7, 1],
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,11 +140,15 @@ class _SpendYearlyBlockAlertState extends ConsumerState<SpendYearlyBlockAlert> {
                   margin: const EdgeInsets.all(2),
                   decoration: BoxDecoration(border: Border.all(color: Colors.white.withOpacity(0.4))),
                   alignment: Alignment.topRight,
-                  child: Text(element.toString().toCurrency()),
+                  child: Text(
+                    element.toString().toCurrency(),
+                    style: TextStyle(color: (i == widget.date.month) ? Colors.yellowAccent : Colors.white),
+                  ),
                 ),
                 Container(
-                    padding: const EdgeInsets.all(5),
-                    child: Text(i.toString().padLeft(2, '0'), style: const TextStyle(color: Colors.grey))),
+                  padding: const EdgeInsets.all(5),
+                  child: Text(i.toString().padLeft(2, '0'), style: const TextStyle(color: Colors.grey)),
+                ),
               ],
             ),
           );
@@ -169,9 +177,7 @@ class _SpendYearlyBlockAlertState extends ConsumerState<SpendYearlyBlockAlert> {
       )
       ..add(const SizedBox(height: 20));
 
-    return SingleChildScrollView(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list),
-    );
+    return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
   }
 
   ///
